@@ -1,6 +1,7 @@
 # Nibblr assignment
 
-De app is volledig werkend met alle eisen. Om de app te gebruiken moet het een lokale verbinding maken met de Laravel API.
+De app is volledig werkend met alle eisen. 
+Om de app te gebruiken moet het een lokale verbinding maken met de Laravel API.
 
 
 #### Twee aandachtspunten
