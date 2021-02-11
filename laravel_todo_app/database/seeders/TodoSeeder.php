@@ -19,8 +19,20 @@ class TodoSeeder extends Seeder
     public function run()
     {
         DB::table('todos')->insert([
-            'title' => Str::random(10),
+            'title' => "Maak een assignment voor Nibblr",
             'completed' => true,
+            'userId' => 1
+        ]);
+
+        DB::table('todos')->insert([
+            'title' => "Fietsband plakken",
+            'completed' => false,
+            'userId' => 1
+        ]);
+
+        DB::table('todos')->insert([
+            'title' => "Sneeuw vegen",
+            'completed' => false,
             'userId' => 1
         ]);
     }

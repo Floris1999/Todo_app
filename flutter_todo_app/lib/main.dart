@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 //for testing purposes created a default user
 final int userId = 1;
@@ -9,10 +11,16 @@ final String baseUrl = '10.0.2.2:8000';
 //Made this list because I do not know how to get data out of a dynamic list
 List<Todo> _todoItems = [];
 
+
+
 Future<List> fetchTodo() async {
-  final response = await http.get(Uri.http(baseUrl, 'api/todos'));
-  if (response.statusCode == 200) {
+
+  try {
+    final response = await http.get(Uri.http(baseUrl, 'api/todos'));
+
     // If the server did return a 200 OK response,
+    print("fetch success");
+
     // then parse the JSON.
     List<Todo> myTodo = [];
     List test = json.decode(response.body) as List;
@@ -21,10 +29,12 @@ Future<List> fetchTodo() async {
     }
     _todoItems = myTodo;
     return myTodo;
-  } else {
-    print('Failed to fetch Todo');
-    throw Exception('Failed to load Todo');
-  }
+
+  } catch (err) {
+      print('Caught error: $err');
+      makeToast();
+}
+
 }
 
 Future<List> createTodo(String title) async {
@@ -64,6 +74,7 @@ Future<List> updateTodo(Todo todo, String val) async {
       'completed': completed.toString(),
     }),
   );
+
   if (response.statusCode == 200) {
     List<Todo> myTodo = [];
     List test = json.decode(response.body) as List;
@@ -76,6 +87,19 @@ Future<List> updateTodo(Todo todo, String val) async {
     throw Exception('Failed to put');
   }
 }
+
+
+void makeToast(){
+  print("fetch failed");
+  Fluttertoast.showToast(
+      msg: "Start de laravel api ",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      fontSize: 16.0
+  );
+}
+
+
 
 class Todo {
   final int userId;
@@ -112,10 +136,12 @@ class TodoList extends StatefulWidget {
 class TodoListState extends State<TodoList> {
   Future<List> futureTodo;
 
+
   @override
   void initState() {
     super.initState();
     futureTodo = fetchTodo();
+
   }
 
 

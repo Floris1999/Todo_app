@@ -22,6 +22,8 @@ environment:
 
 dependencies:
   http: any
+  fluttertoast: ^7.1.6
+
 
   flutter:
     sdk: flutter
