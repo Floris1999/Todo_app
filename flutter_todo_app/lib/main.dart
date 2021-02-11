@@ -1,6 +1,4 @@
-// Import MaterialApp and other widgets which we can use to quickly create a material app
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -8,7 +6,7 @@ import 'package:http/http.dart' as http;
 //for testing purposes created a default user
 final int userId = 1;
 final String baseUrl = '10.0.2.2:8000';
-
+//Made this list because I do not know how to get data out of a dynamic list
 List<Todo> _todoItems = [];
 
 Future<List> fetchTodo() async {
@@ -16,11 +14,9 @@ Future<List> fetchTodo() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    print('fetch success');
     List<Todo> myTodo = [];
     List test = json.decode(response.body) as List;
     for (var i = 0; i < test.length; i++) {
-      // print(test[i]);
       myTodo.add(Todo.fromJson(test[i]));
     }
     _todoItems = myTodo;
@@ -56,6 +52,7 @@ Future<List> createTodo(String title) async {
 }
 
 Future<List> updateTodo(Todo todo, String val) async {
+  //turn the boolean in a 0 or a 1 else Laravel does not know what to do with it
   int completed = todo.completed == false ? 0 : 1;
   final response = await http.put(
     Uri.http(baseUrl, 'api/todos/' + todo.id.toString()),
@@ -122,6 +119,7 @@ class TodoListState extends State<TodoList> {
   }
 
 
+  //build a list with all the todo's
   Widget projectWidget() {
     return FutureBuilder(
         future: futureTodo,
